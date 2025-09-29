@@ -5,9 +5,12 @@ const http = axios.create({
   timeout: 10000,
 });
 
-http.interceptors.response.use(
-  (res) => res,
-  (err) => Promise.reject(err)
-);
+http.interceptors.request.use((config) => {
+  const token = localStorage.getItem("auth_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default http;

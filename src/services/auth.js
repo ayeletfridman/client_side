@@ -16,12 +16,18 @@ export const authService = {
     return data;
   },
 
-  getToken() {
-    return localStorage.getItem(TOKEN_KEY);
+  async logout() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+      await http.post(`${AUTH_ROUTE}/logout`, null, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    }
+    localStorage.removeItem(TOKEN_KEY);
   },
 
-  logout() {
-    localStorage.removeItem(TOKEN_KEY);
+  getToken() {
+    return localStorage.getItem(TOKEN_KEY);
   },
 };
 

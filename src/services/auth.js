@@ -26,6 +26,15 @@ export const authService = {
     localStorage.removeItem(TOKEN_KEY);
   },
 
+  async register({ username, password }) {
+    const { data } = await http.post(`${AUTH_ROUTE}/register`, {
+      username,
+      password,
+    });
+    if (data?.token) localStorage.setItem(TOKEN_KEY, data.token);
+    return data;
+  },
+
   getToken() {
     return localStorage.getItem(TOKEN_KEY);
   },
